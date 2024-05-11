@@ -1,12 +1,11 @@
 package com.amaap.electionresult.domain.model.entity;
 
 import com.amaap.electionresult.domain.model.entity.exception.InvalidConstituencyNameException;
-import com.amaap.electionresult.domain.model.entity.validator.ResultDataValidator;
 
 import java.util.Map;
 import java.util.Objects;
 
-import static com.amaap.electionresult.domain.model.entity.validator.ResultDataValidator.isInvalidConstituencyName;
+import static com.amaap.electionresult.domain.model.entity.validator.ResultDataValidator.isValidConstituencyName;
 
 public class ResultData {
     private final int id;
@@ -20,7 +19,7 @@ public class ResultData {
     }
 
     public static ResultData create(int id, String constituencyName, Map<String, Integer> data) throws InvalidConstituencyNameException {
-        if(isInvalidConstituencyName(constituencyName)) throw new InvalidConstituencyNameException("Invalid constituency Name :"+constituencyName);
+        if(!isValidConstituencyName(constituencyName)) throw new InvalidConstituencyNameException("Invalid constituency Name :"+constituencyName);
         return new ResultData(id,constituencyName,data);
     }
 
