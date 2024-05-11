@@ -36,7 +36,7 @@ class ResultDataServiceTest {
     }
 
     @Test
-    void shouldBeAbleToGetResultForAllConstituencyFromDatabase() throws InvalidConstituencyNameException {
+    void shouldBeAbleToGetResultForAllConstituency() throws InvalidConstituencyNameException {
         // arrange
         Map<String, Integer> data1 = new HashMap<>();
         data1.put("BJP", 2000);
@@ -55,6 +55,5 @@ class ResultDataServiceTest {
 
         // assert
         assertEquals(expected,actual);
-
     }
 }

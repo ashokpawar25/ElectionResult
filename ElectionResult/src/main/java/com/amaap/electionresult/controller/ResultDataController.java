@@ -2,6 +2,7 @@ package com.amaap.electionresult.controller;
 import com.amaap.electionresult.domain.model.entity.ResultData;
 import com.amaap.electionresult.service.ResultDataService;
 
+import java.util.List;
 import java.util.Map;
 
 public class ResultDataController {
@@ -13,5 +14,9 @@ public class ResultDataController {
 
     public ResultData create(String constituencyName, Map<String, Integer> data) {
         return resultDataService.create(constituencyName,data);
+    }
+
+    public List<ResultData> getAllResultData() {
+        return resultDataService.getAllResultData();
     }
 }
