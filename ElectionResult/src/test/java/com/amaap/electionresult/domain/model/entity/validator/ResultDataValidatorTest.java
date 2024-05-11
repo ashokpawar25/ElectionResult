@@ -30,4 +30,14 @@ class ResultDataValidatorTest {
         assertFalse(isValidConstituencyName("Abc    "));
         assertFalse(isValidConstituencyName("Abc "));
     }
+
+    @Test
+    void shouldBeAbleToCreateInstanceOfClass()
+    {
+        // arrange & act
+        ResultDataValidator resultDataValidator = new ResultDataValidator();
+
+        // assert
+        assertNotNull(resultDataValidator);
+    }
 }

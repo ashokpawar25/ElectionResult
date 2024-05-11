@@ -8,7 +8,7 @@ import java.util.Objects;
 import static com.amaap.electionresult.domain.model.entity.validator.ResultDataValidator.isValidConstituencyName;
 
 public class ResultData {
-    private final int id;
+    private int id;
     private final String constituencyName;
     private final Map<String, Integer> data;
 
@@ -21,6 +21,10 @@ public class ResultData {
     public static ResultData create(int id, String constituencyName, Map<String, Integer> data) throws InvalidConstituencyNameException {
         if(!isValidConstituencyName(constituencyName)) throw new InvalidConstituencyNameException("Invalid constituency Name :"+constituencyName);
         return new ResultData(id,constituencyName,data);
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
