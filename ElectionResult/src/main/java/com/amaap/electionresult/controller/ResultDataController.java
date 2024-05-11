@@ -1,5 +1,8 @@
 package com.amaap.electionresult.controller;
+import com.amaap.electionresult.controller.dto.HttpStatus;
+import com.amaap.electionresult.controller.dto.Response;
 import com.amaap.electionresult.domain.model.entity.ResultData;
+import com.amaap.electionresult.domain.model.entity.exception.InvalidConstituencyNameException;
 import com.amaap.electionresult.service.ResultDataService;
 
 import java.util.List;
@@ -12,8 +15,13 @@ public class ResultDataController {
         this.resultDataService = resultDataService;
     }
 
-    public ResultData create(String constituencyName, Map<String, Integer> data) {
-        return resultDataService.create(constituencyName,data);
+    public Response create(String constituencyName, Map<String, Integer> data) {
+        try{
+            resultDataService.create(constituencyName,data);
+            return new Response(HttpStatus.OK,"Result Data created successfully");
+        } catch (InvalidConstituencyNameException e) {
+            return new Response(HttpStatus.BADREQUEST,e.getMessage());
+        }
     }
 
     public List<ResultData> getAllResultData() {

@@ -1,5 +1,7 @@
 package com.amaap.electionresult.controller;
 
+import com.amaap.electionresult.controller.dto.HttpStatus;
+import com.amaap.electionresult.controller.dto.Response;
 import com.amaap.electionresult.domain.model.entity.ResultData;
 import com.amaap.electionresult.domain.model.entity.exception.InvalidConstituencyNameException;
 import com.amaap.electionresult.repository.ResultDataRepository;
@@ -22,17 +24,34 @@ public class ResultDataControllerTest {
     ResultDataController resultDataController = new ResultDataController(resultDataService);
 
     @Test
-    void shouldBeAbleToCreateResultData()
+    void shouldBeAbleToGetOkResponseWhenResultDataCreate()
     {
         // arrange
         String constituencyName = "Pune";
         Map<String,Integer> data = new HashMap<>();
         data.put("BJP",2000);
         data.put("NCP",5050);
-        ResultData expected = new ResultData(1,constituencyName,data);
+        Response expected = new Response(HttpStatus.OK,"Result Data created successfully");
 
         // act
-        ResultData actual = resultDataController.create(constituencyName,data);
+        Response actual = resultDataController.create(constituencyName,data);
+
+        // assert
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    void shouldBeAbleToGetBadRequestAsResponseWhenInvalidDataIsPassed()
+    {
+        // arrange
+        String constituencyName = "Ab";
+        Map<String,Integer> data = new HashMap<>();
+        data.put("BJP",2000);
+        data.put("NCP",5050);
+        Response expected = new Response(HttpStatus.BADREQUEST,"Invalid constituency Name :"+constituencyName);
+
+        // act
+        Response actual = resultDataController.create(constituencyName,data);
 
         // assert
         assertEquals(expected,actual);

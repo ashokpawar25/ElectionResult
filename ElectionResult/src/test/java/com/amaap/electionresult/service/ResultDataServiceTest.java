@@ -20,7 +20,7 @@ class ResultDataServiceTest {
     ResultDataService resultDataService = new ResultDataService(resultDataRepository);
 
     @Test
-    void shouldBeAbleToCreateResultData() {
+    void shouldBeAbleToCreateResultData() throws InvalidConstituencyNameException {
         // arrange
         String constituencyName = "Pune";
         Map<String, Integer> data = new HashMap<>();
