@@ -15,7 +15,7 @@ public enum Party {
         this.fullName = fullName;
     }
 
-    public static String getFullNameByCode(String code) {
+    public static String getFullName(String code) {
         for (Party party : values()) {
             if (party.name().equalsIgnoreCase(code)) {
                 return party.getFullName();

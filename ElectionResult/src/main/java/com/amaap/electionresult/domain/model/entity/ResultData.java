@@ -27,9 +27,6 @@ public class ResultData {
         this.id = id;
     }
 
-    public int getId() {
-        return id;
-    }
 
     public String getConstituencyName() {
         return constituencyName;

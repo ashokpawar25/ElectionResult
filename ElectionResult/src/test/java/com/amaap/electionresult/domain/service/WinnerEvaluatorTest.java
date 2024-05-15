@@ -27,4 +27,14 @@ class WinnerEvaluatorTest {
         // assert
         assertEquals(expected,actual);
     }
+
+    @Test
+    void shouldBeAbleToCreateInstanceOfClass()
+    {
+        // arrange
+        WinnerEvaluator winnerEvaluator = new WinnerEvaluator();
+
+        // act & assert
+        assertNotNull(winnerEvaluator);
+    }
 }

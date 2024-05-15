@@ -1,6 +1,7 @@
 package com.amaap.electionresult.service;
 
 import com.amaap.electionresult.domain.model.entity.ResultData;
+import com.amaap.electionresult.domain.model.valueobject.Party;
 import com.amaap.electionresult.domain.service.WinnerEvaluator;
 import com.amaap.electionresult.domain.service.dto.WinnerDto;
 import com.amaap.electionresult.service.exception.InvalidFilePathException;
@@ -32,7 +33,7 @@ public class ElectionManagerService {
         StringBuilder winnersData = new StringBuilder();
         for(WinnerDto winner:winnerList)
         {
-            winnersData.append("In ").append(winner.constituencyName).append(" constituency Indian National Congress is won and their votes are ").append(winner.votes).append(" and they are won by ").append(winner.percentageVotes).append(" percentage of total votes.\n");
+            winnersData.append("In ").append(winner.constituencyName).append(" constituency ").append(Party.getFullName(winner.partyCode)).append(" is won and their votes are ").append(winner.votes).append(" and they are won by ").append(winner.percentageVotes).append(" percentage of total votes.\n");
         }
         return winnersData.toString();
     }
