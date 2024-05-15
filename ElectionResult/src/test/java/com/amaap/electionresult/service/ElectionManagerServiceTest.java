@@ -19,7 +19,7 @@ class ElectionManagerServiceTest {
     ResultDataService resultDataService = new ResultDataService(new InMemoryResultDataRepository(new FakeInMemoryDatabase()));
     FileParserService fileParserService = new FileParserService(resultDataService);
     FileReaderService fileReaderService = new FileReaderService(fileParserService);
-    ElectionManagerService electionManagerService = new ElectionManagerService(fileReaderService);
+    ElectionManagerService electionManagerService = new ElectionManagerService(fileReaderService,resultDataService);
 
     @Test
     void shouldBeAbleToReadFileAndStoreResultDataIntoDatabase() throws InvalidFilePathException, InvalidInputFileDataException {
@@ -33,6 +33,16 @@ class ElectionManagerServiceTest {
 
         // assert
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldBeAbleToThrowExceptionWhenFileDataIsInvalid()
+    {
+        // arrange
+        String filePath = "src/main/java/com/amaap/electionresult/resource/InvalidData.txt";
+
+        // act & assert
+        assertThrows(InvalidInputFileDataException.class,()->electionManagerService.readFile(filePath));
     }
 
     @Test

@@ -31,4 +31,14 @@ class InputDataValidatorServiceTest {
         // assert
         assertFalse(isValidCode);
     }
+
+    @Test
+    void shouldBeAbleToCreateInstanceOfClass()
+    {
+        // arrange
+        InputDataValidatorService inputDataValidatorService = new InputDataValidatorService();
+
+        // act & assert
+        assertNotNull(inputDataValidatorService);
+    }
 }

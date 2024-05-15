@@ -27,6 +27,18 @@ public class ResultData {
         this.id = id;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getConstituencyName() {
+        return constituencyName;
+    }
+
+    public Map<String, Integer> getData() {
+        return data;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

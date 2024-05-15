@@ -33,4 +33,14 @@ class FileReaderServiceTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    void shouldBeAbleToThrowExceptionWhenInvalidFilePathIsPassed()
+    {
+        // arrange
+        String filePath = "src/main/java/com/amaap/electionresult/resource/Unavailable.txt";
+
+        // act & assert
+        assertThrows(RuntimeException.class,()->fileReaderService.readFile(filePath));
+    }
+
 }

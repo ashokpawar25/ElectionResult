@@ -14,6 +14,7 @@ import java.util.List;
 
 import static com.amaap.electionresult.domain.model.entity.builder.ResultDataBuilder.getResultData;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FileParserServiceTest {
     ResultDataService resultDataService = new ResultDataService(new InMemoryResultDataRepository(new FakeInMemoryDatabase()));
@@ -23,7 +24,6 @@ class FileParserServiceTest {
     void shouldBeAbleToParseResultDataFromInputLineAndStoreResultDataIntoDatabase() throws InvalidConstituencyNameException, FileNotFoundException, InvalidVoteCountException, InvalidPartyCodeException {
         // arrange
         List<ResultData> expected = getResultData();
-        String filePath = "src/main/java/com/amaap/electionresult/resource/ResultData.txt";
 
         // act
         fileParserService.parseResultData("Bangalore, BJP, 11014, INC, 17803, CPI, 4923, NCP, 2069");
@@ -32,5 +32,32 @@ class FileParserServiceTest {
 
         // assert
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldBeAbleToThrowExceptionWhenInvalidConstituencyNameIsPassed() {
+        // arrange
+        String line = "Pandharpur, BJP, 11014, INC, 17803, CPI, 4923, NCP, 2069";
+
+        // act & assert
+        assertThrows(InvalidConstituencyNameException.class,()->fileParserService.parseResultData(line));
+    }
+
+    @Test
+    void shouldBeAbleToThrowExceptionWhenInvalidPartyCodeIsPassed() {
+        // arrange
+        String line = "Pune, BJP1, 11014, INC, 17803, CPI, 4923, NCP, 2069";
+
+        // act & assert
+        assertThrows(InvalidPartyCodeException.class,()->fileParserService.parseResultData(line));
+    }
+
+    @Test
+    void shouldBeAbleToThrowExceptionWhenInvalidVoteCountIsPassed() {
+        // arrange
+        String line = "Pune, BJP, -11014, INC, 17803, CPI, 4923, NCP, 2069";
+
+        // act & assert
+        assertThrows(InvalidVoteCountException.class,()->fileParserService.parseResultData(line));
     }
 }
