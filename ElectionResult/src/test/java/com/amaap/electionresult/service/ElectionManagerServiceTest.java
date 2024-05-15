@@ -67,4 +67,22 @@ class ElectionManagerServiceTest {
         // assert
         assertEquals(expected,actual);
     }
+
+    @Test
+    void shouldBeAbleToDisplayWinnerOfEveryConstituency() throws InvalidInputFileDataException {
+        // arrange
+        String filePath = "src/main/java/com/amaap/electionresult/resource/ResultData.txt";
+        String expected = "In Bangalore constituency Indian National Congress is won and their " +
+                "votes are 17803 and they are won by 49.0 percentage of total votes." +
+                "\nIn Pune constituency Indian National Congress is won and their " +
+                "votes are 9389 and they are won by 44.0 percentage of total votes.";
+
+        // act
+        fileReaderService.readFile(filePath);
+        List<WinnerDto> winnerList = electionManagerService.getWinner();
+        String actual = electionManagerService.displayWinners(winnerList).trim();
+
+        // assert
+        assertEquals(expected,actual);
+    }
 }

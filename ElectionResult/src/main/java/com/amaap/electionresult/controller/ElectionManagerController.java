@@ -21,4 +21,8 @@ public class ElectionManagerController {
     public List<WinnerDto> getWinner() {
         return electionManagerService.getWinner();
     }
+
+    public String displayWinners(List<WinnerDto> winnerList) {
+        return electionManagerService.displayWinners(winnerList);
+    }
 }

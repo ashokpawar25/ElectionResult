@@ -27,4 +27,13 @@ public class ElectionManagerService {
         List<ResultData> resultData = resultDataService.getAllResultData();
         return WinnerEvaluator.getWinner(resultData);
     }
+
+    public String displayWinners(List<WinnerDto> winnerList) {
+        StringBuilder winnersData = new StringBuilder();
+        for(WinnerDto winner:winnerList)
+        {
+            winnersData.append("In ").append(winner.constituencyName).append(" constituency Indian National Congress is won and their votes are ").append(winner.votes).append(" and they are won by ").append(winner.percentageVotes).append(" percentage of total votes.\n");
+        }
+        return winnersData.toString();
+    }
 }
