@@ -6,6 +6,7 @@ import com.amaap.electionresult.repository.impl.InMemoryResultDataRepository;
 import com.amaap.electionresult.service.ElectionManagerService;
 import com.amaap.electionresult.service.ResultDataService;
 import com.amaap.electionresult.service.exception.InvalidFilePathException;
+import com.amaap.electionresult.service.exception.InvalidInputFileDataException;
 import com.amaap.electionresult.service.io.FileParserService;
 import com.amaap.electionresult.service.io.FileReaderService;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ public class ElectionManagerControllerTest {
     ElectionManagerController electionManagerController = new ElectionManagerController(electionManagerService);
 
     @Test
-    void shouldBeAbleToReadFileAndStoreResultDataIntoDatabase() throws InvalidFilePathException {
+    void shouldBeAbleToReadFileAndStoreResultDataIntoDatabase() throws InvalidFilePathException, InvalidInputFileDataException {
         // arrange
         List<ResultData> expected = getResultData();
         String filePath = "src/main/java/com/amaap/electionresult/resource/ResultData.txt";

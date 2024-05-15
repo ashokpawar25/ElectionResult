@@ -15,7 +15,7 @@ public class FileReaderService {
         this.fileParserService = fileParserService;
     }
 
-    public void readFile(String filePath) {
+    public void readFile(String filePath) throws InvalidInputFileDataException {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -25,7 +25,7 @@ public class FileReaderService {
                     throw new InvalidInputFileDataException("file data is invalid");
                 }
             }
-        } catch (IOException | InvalidInputFileDataException | InvalidConstituencyNameException |
+        } catch (IOException | InvalidConstituencyNameException |
                  InvalidVoteCountException | InvalidPartyCodeException e) {
             throw new RuntimeException(e);
         }

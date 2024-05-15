@@ -1,6 +1,7 @@
 package com.amaap.electionresult.service;
 
 import com.amaap.electionresult.service.exception.InvalidFilePathException;
+import com.amaap.electionresult.service.exception.InvalidInputFileDataException;
 import com.amaap.electionresult.service.io.FileReaderService;
 
 public class ElectionManagerService {
@@ -10,7 +11,7 @@ public class ElectionManagerService {
         this.fileReaderService = fileReaderService;
     }
 
-    public void readFile(String filePath) throws InvalidFilePathException {
+    public void readFile(String filePath) throws InvalidFilePathException, InvalidInputFileDataException {
         if (filePath == null || filePath.isEmpty()) throw new InvalidFilePathException("Invalid file path");
         fileReaderService.readFile(filePath);
     }
