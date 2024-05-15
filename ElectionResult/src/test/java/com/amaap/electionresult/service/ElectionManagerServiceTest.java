@@ -1,6 +1,7 @@
 package com.amaap.electionresult.service;
 
 import com.amaap.electionresult.domain.model.entity.ResultData;
+import com.amaap.electionresult.domain.service.dto.WinnerDto;
 import com.amaap.electionresult.repository.db.impl.FakeInMemoryDatabase;
 import com.amaap.electionresult.repository.impl.InMemoryResultDataRepository;
 import com.amaap.electionresult.service.exception.InvalidFilePathException;
@@ -49,5 +50,21 @@ class ElectionManagerServiceTest {
     void shouldBeAbleToThrowExceptionWhenInvalidFilePathIsPassed() {
         assertThrows(InvalidFilePathException.class,()->electionManagerService.readFile(""));
         assertThrows(InvalidFilePathException.class,()->electionManagerService.readFile(null));
+    }
+
+    @Test
+    void shouldBeAbleToProcessDataAndGetWinnerOfConstituency() throws InvalidInputFileDataException, InvalidFilePathException {
+        // arrange
+        String filePath = "src/main/java/com/amaap/electionresult/resource/ResultData.txt";
+        WinnerDto winner1 = new WinnerDto("Bangalore","INC",17803,49.0);
+        WinnerDto winner2 = new WinnerDto("Pune","INC",9389,44.0);
+        List<WinnerDto> expected = List.of(winner1,winner2);
+
+        // act
+        electionManagerService.readFile(filePath);
+        List<WinnerDto> actual = electionManagerService.getWinner();
+
+        // assert
+        assertEquals(expected,actual);
     }
 }
