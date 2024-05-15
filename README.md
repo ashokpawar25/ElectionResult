@@ -35,7 +35,7 @@ Extensions -
 
 
 ## Process
-= Read The result data file.
+- Read The result data file.
 - Validate the result data.
 - Parse/extract the data.
 - Store data into database.
