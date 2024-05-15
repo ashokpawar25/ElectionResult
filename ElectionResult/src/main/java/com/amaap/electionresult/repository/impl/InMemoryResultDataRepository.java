@@ -3,12 +3,13 @@ package com.amaap.electionresult.repository.impl;
 import com.amaap.electionresult.domain.model.entity.ResultData;
 import com.amaap.electionresult.repository.ResultDataRepository;
 import com.amaap.electionresult.repository.db.InMemoryDatabase;
+import jakarta.inject.Inject;
 
 import java.util.List;
 
 public class InMemoryResultDataRepository implements ResultDataRepository {
     private final InMemoryDatabase inMemoryDatabase;
-
+    @Inject
     public InMemoryResultDataRepository(InMemoryDatabase inMemoryDatabase) {
         this.inMemoryDatabase = inMemoryDatabase;
     }

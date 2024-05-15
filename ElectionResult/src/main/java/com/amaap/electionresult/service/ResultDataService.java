@@ -3,13 +3,14 @@ package com.amaap.electionresult.service;
 import com.amaap.electionresult.domain.model.entity.ResultData;
 import com.amaap.electionresult.domain.model.entity.exception.InvalidConstituencyNameException;
 import com.amaap.electionresult.repository.ResultDataRepository;
+import jakarta.inject.Inject;
 
 import java.util.List;
 import java.util.Map;
 
 public class ResultDataService {
     private final ResultDataRepository resultDataRepository;
-
+    @Inject
     public ResultDataService(ResultDataRepository resultDataRepository) {
         this.resultDataRepository = resultDataRepository;
     }

@@ -4,6 +4,7 @@ import com.amaap.electionresult.domain.model.entity.exception.InvalidConstituenc
 import com.amaap.electionresult.service.ResultDataService;
 import com.amaap.electionresult.service.io.exception.InvalidPartyCodeException;
 import com.amaap.electionresult.service.io.exception.InvalidVoteCountException;
+import jakarta.inject.Inject;
 
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import static com.amaap.electionresult.service.io.InputDataValidatorService.vali
 
 public class FileParserService {
     private final ResultDataService resultDataService;
-
+    @Inject
     public FileParserService(ResultDataService resultDataService) {
         this.resultDataService = resultDataService;
     }

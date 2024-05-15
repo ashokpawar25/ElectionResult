@@ -4,6 +4,7 @@ import com.amaap.electionresult.domain.model.entity.exception.InvalidConstituenc
 import com.amaap.electionresult.service.exception.InvalidInputFileDataException;
 import com.amaap.electionresult.service.io.exception.InvalidPartyCodeException;
 import com.amaap.electionresult.service.io.exception.InvalidVoteCountException;
+import jakarta.inject.Inject;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,6 +12,7 @@ import java.io.IOException;
 
 public class FileReaderService {
     private final FileParserService fileParserService;
+    @Inject
     public FileReaderService(FileParserService fileParserService) {
         this.fileParserService = fileParserService;
     }

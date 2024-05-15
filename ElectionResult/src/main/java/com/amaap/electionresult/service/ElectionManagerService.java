@@ -7,13 +7,14 @@ import com.amaap.electionresult.domain.service.dto.WinnerDto;
 import com.amaap.electionresult.service.exception.InvalidFilePathException;
 import com.amaap.electionresult.service.exception.InvalidInputFileDataException;
 import com.amaap.electionresult.service.io.FileReaderService;
+import jakarta.inject.Inject;
 
 import java.util.List;
 
 public class ElectionManagerService {
     private final FileReaderService fileReaderService;
     private final ResultDataService resultDataService;
-
+    @Inject
     public ElectionManagerService(FileReaderService fileReaderService,ResultDataService resultDataService) {
         this.fileReaderService = fileReaderService;
         this.resultDataService = resultDataService;

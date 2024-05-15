@@ -11,23 +11,23 @@ public class WinnerEvaluator {
     public static List<WinnerDto> getWinner(List<ResultData> resultData) {
         List<WinnerDto> winners = new ArrayList<>();
         for (ResultData result : resultData) {
-            String constituency = result.getConstituencyName();
-            Map<String, Integer> allVotes = result.getData();
+            String constituencyName = result.getConstituencyName();
+            Map<String, Integer> data = result.getData();
             int totalVotes = 0;
             String winnerParty = null;
-            int partyVotes = 0;
+            int votes = 0;
 
-            for (Map.Entry<String, Integer> entry : allVotes.entrySet()) {
+            for (Map.Entry<String, Integer> entry : data.entrySet()) {
                 String party = entry.getKey();
                 int vote = entry.getValue();
                 totalVotes += vote;
-                if (vote > partyVotes) {
-                    partyVotes = vote;
+                if (vote > votes) {
+                    votes = vote;
                     winnerParty = party;
                 }
             }
-            int percentageVotes = (partyVotes*100)/totalVotes;
-            winners.add(new WinnerDto(constituency,winnerParty,partyVotes,percentageVotes));
+            int percentageVotes = (votes*100)/totalVotes;
+            winners.add(new WinnerDto(constituencyName,winnerParty,votes,percentageVotes));
         }
         return winners;
     }
