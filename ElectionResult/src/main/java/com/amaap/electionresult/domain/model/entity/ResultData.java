@@ -34,5 +34,4 @@ public class ResultData {
         ResultData that = (ResultData) o;
         return id == that.id && Objects.equals(constituencyName, that.constituencyName) && Objects.equals(data, that.data);
     }
-
 }
