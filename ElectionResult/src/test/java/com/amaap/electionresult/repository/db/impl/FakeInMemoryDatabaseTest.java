@@ -1,7 +1,12 @@
 package com.amaap.electionresult.repository.db.impl;
 
+import com.amaap.electionresult.AppModule;
+import com.amaap.electionresult.controller.ResultDataController;
 import com.amaap.electionresult.domain.model.entity.ResultData;
 import com.amaap.electionresult.domain.model.entity.exception.InvalidConstituencyNameException;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -11,7 +16,13 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FakeInMemoryDatabaseTest {
-    FakeInMemoryDatabase fakeInMemoryDatabase = new FakeInMemoryDatabase();
+    FakeInMemoryDatabase fakeInMemoryDatabase;
+
+    @BeforeEach
+    void setUp() {
+        Injector injector = Guice.createInjector(new AppModule());
+        fakeInMemoryDatabase = injector.getInstance(FakeInMemoryDatabase.class);
+    }
 
     @Test
     void shouldBeAbleToCreateResultData() throws InvalidConstituencyNameException {

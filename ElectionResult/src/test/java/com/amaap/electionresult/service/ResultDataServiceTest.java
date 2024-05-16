@@ -1,13 +1,12 @@
 package com.amaap.electionresult.service;
 
+import com.amaap.electionresult.AppModule;
 import com.amaap.electionresult.domain.model.entity.ResultData;
 import com.amaap.electionresult.domain.model.entity.exception.InvalidConstituencyNameException;
-import com.amaap.electionresult.repository.ResultDataRepository;
-import com.amaap.electionresult.repository.db.InMemoryDatabase;
-import com.amaap.electionresult.repository.db.impl.FakeInMemoryDatabase;
-import com.amaap.electionresult.repository.impl.InMemoryResultDataRepository;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,9 +14,13 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ResultDataServiceTest {
-    InMemoryDatabase inMemoryDatabase = new FakeInMemoryDatabase();
-    ResultDataRepository resultDataRepository = new InMemoryResultDataRepository(inMemoryDatabase);
-    ResultDataService resultDataService = new ResultDataService(resultDataRepository);
+    ResultDataService resultDataService;
+
+    @BeforeEach
+    void setUp() {
+        Injector injector = Guice.createInjector(new AppModule());
+        resultDataService = injector.getInstance(ResultDataService.class);
+    }
 
     @Test
     void shouldBeAbleToCreateResultData() throws InvalidConstituencyNameException {
@@ -46,14 +49,14 @@ class ResultDataServiceTest {
         data2.put("NCP", 9030);
         ResultData resultData1 = ResultData.create(1, "Pune", data1);
         ResultData resultData2 = ResultData.create(2, "Bangalore", data2);
-        List<ResultData> expected = List.of(resultData1,resultData2);
+        List<ResultData> expected = List.of(resultData1, resultData2);
 
         // act
-        resultDataService.create("Pune",data1);
-        resultDataService.create("Bangalore",data2);
+        resultDataService.create("Pune", data1);
+        resultDataService.create("Bangalore", data2);
         List<ResultData> actual = resultDataService.getAllResultData();
 
         // assert
-        assertEquals(expected,actual);
+        assertEquals(expected, actual);
     }
 }

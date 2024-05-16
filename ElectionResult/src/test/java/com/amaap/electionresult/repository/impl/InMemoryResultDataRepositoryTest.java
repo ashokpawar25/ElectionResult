@@ -1,9 +1,11 @@
 package com.amaap.electionresult.repository.impl;
 
+import com.amaap.electionresult.AppModule;
 import com.amaap.electionresult.domain.model.entity.ResultData;
 import com.amaap.electionresult.domain.model.entity.exception.InvalidConstituencyNameException;
-import com.amaap.electionresult.repository.db.InMemoryDatabase;
-import com.amaap.electionresult.repository.db.impl.FakeInMemoryDatabase;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -13,8 +15,13 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class InMemoryResultDataRepositoryTest {
-    InMemoryDatabase inMemoryDatabase = new FakeInMemoryDatabase();
-    InMemoryResultDataRepository inMemoryResultDataRepository = new InMemoryResultDataRepository(inMemoryDatabase);
+    InMemoryResultDataRepository inMemoryResultDataRepository;
+
+    @BeforeEach
+    void setUp() {
+        Injector injector = Guice.createInjector(new AppModule());
+        inMemoryResultDataRepository = injector.getInstance(InMemoryResultDataRepository.class);
+    }
 
     @Test
     void shouldBeAbleToCreateResultData() {
@@ -44,7 +51,7 @@ class InMemoryResultDataRepositoryTest {
         data2.put("NCP", 9030);
         ResultData resultData1 = ResultData.create(1, "Pune", data1);
         ResultData resultData2 = ResultData.create(2, "Bangalore", data2);
-        List<ResultData> expected = List.of(resultData1,resultData2);
+        List<ResultData> expected = List.of(resultData1, resultData2);
 
         // act
         inMemoryResultDataRepository.save(resultData1);
@@ -52,6 +59,6 @@ class InMemoryResultDataRepositoryTest {
         List<ResultData> actual = inMemoryResultDataRepository.getAllResultData();
 
         // assert
-        assertEquals(expected,actual);
+        assertEquals(expected, actual);
     }
 }

@@ -1,12 +1,14 @@
 package com.amaap.electionresult.service.io;
 
+import com.amaap.electionresult.AppModule;
 import com.amaap.electionresult.domain.model.entity.ResultData;
 import com.amaap.electionresult.domain.model.entity.exception.InvalidConstituencyNameException;
-import com.amaap.electionresult.repository.db.impl.FakeInMemoryDatabase;
-import com.amaap.electionresult.repository.impl.InMemoryResultDataRepository;
 import com.amaap.electionresult.service.ResultDataService;
 import com.amaap.electionresult.service.io.exception.InvalidPartyCodeException;
 import com.amaap.electionresult.service.io.exception.InvalidVoteCountException;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -17,8 +19,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FileParserServiceTest {
-    ResultDataService resultDataService = new ResultDataService(new InMemoryResultDataRepository(new FakeInMemoryDatabase()));
-    FileParserService fileParserService = new FileParserService(resultDataService);
+    ResultDataService resultDataService;
+    FileParserService fileParserService;
+
+    @BeforeEach
+    void setUp() {
+        Injector injector = Guice.createInjector(new AppModule());
+        fileParserService = injector.getInstance(FileParserService.class);
+        resultDataService = injector.getInstance(ResultDataService.class);
+    }
 
     @Test
     void shouldBeAbleToParseResultDataFromInputLineAndStoreResultDataIntoDatabase() throws InvalidConstituencyNameException, FileNotFoundException, InvalidVoteCountException, InvalidPartyCodeException {
@@ -40,7 +49,7 @@ class FileParserServiceTest {
         String line = "Pandharpur, BJP, 11014, INC, 17803, CPI, 4923, NCP, 2069";
 
         // act & assert
-        assertThrows(InvalidConstituencyNameException.class,()->fileParserService.parseResultData(line));
+        assertThrows(InvalidConstituencyNameException.class, () -> fileParserService.parseResultData(line));
     }
 
     @Test
@@ -49,7 +58,7 @@ class FileParserServiceTest {
         String line = "Pune, BJP1, 11014, INC, 17803, CPI, 4923, NCP, 2069";
 
         // act & assert
-        assertThrows(InvalidPartyCodeException.class,()->fileParserService.parseResultData(line));
+        assertThrows(InvalidPartyCodeException.class, () -> fileParserService.parseResultData(line));
     }
 
     @Test
@@ -58,6 +67,6 @@ class FileParserServiceTest {
         String line = "Pune, BJP, -11014, INC, 17803, CPI, 4923, NCP, 2069";
 
         // act & assert
-        assertThrows(InvalidVoteCountException.class,()->fileParserService.parseResultData(line));
+        assertThrows(InvalidVoteCountException.class, () -> fileParserService.parseResultData(line));
     }
 }

@@ -1,13 +1,14 @@
 package com.amaap.electionresult.service;
 
+import com.amaap.electionresult.AppModule;
 import com.amaap.electionresult.domain.model.entity.ResultData;
 import com.amaap.electionresult.domain.service.dto.WinnerDto;
-import com.amaap.electionresult.repository.db.impl.FakeInMemoryDatabase;
-import com.amaap.electionresult.repository.impl.InMemoryResultDataRepository;
 import com.amaap.electionresult.service.exception.InvalidFilePathException;
 import com.amaap.electionresult.service.exception.InvalidInputFileDataException;
-import com.amaap.electionresult.service.io.FileParserService;
 import com.amaap.electionresult.service.io.FileReaderService;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -17,10 +18,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ElectionManagerServiceTest {
-    ResultDataService resultDataService = new ResultDataService(new InMemoryResultDataRepository(new FakeInMemoryDatabase()));
-    FileParserService fileParserService = new FileParserService(resultDataService);
-    FileReaderService fileReaderService = new FileReaderService(fileParserService);
-    ElectionManagerService electionManagerService = new ElectionManagerService(fileReaderService,resultDataService);
+    ResultDataService resultDataService;
+    FileReaderService fileReaderService;
+    ElectionManagerService electionManagerService;
+
+    @BeforeEach
+    void setUp() {
+        Injector injector = Guice.createInjector(new AppModule());
+        electionManagerService = injector.getInstance(ElectionManagerService.class);
+        resultDataService = injector.getInstance(ResultDataService.class);
+        fileReaderService = injector.getInstance(FileReaderService.class);
+    }
 
     @Test
     void shouldBeAbleToReadFileAndStoreResultDataIntoDatabase() throws InvalidFilePathException, InvalidInputFileDataException {
@@ -37,35 +45,34 @@ class ElectionManagerServiceTest {
     }
 
     @Test
-    void shouldBeAbleToThrowExceptionWhenFileDataIsInvalid()
-    {
+    void shouldBeAbleToThrowExceptionWhenFileDataIsInvalid() {
         // arrange
         String filePath = "src/main/java/com/amaap/electionresult/resource/InvalidData.txt";
 
         // act & assert
-        assertThrows(InvalidInputFileDataException.class,()->electionManagerService.readFile(filePath));
+        assertThrows(InvalidInputFileDataException.class, () -> electionManagerService.readFile(filePath));
     }
 
     @Test
     void shouldBeAbleToThrowExceptionWhenInvalidFilePathIsPassed() {
-        assertThrows(InvalidFilePathException.class,()->electionManagerService.readFile(""));
-        assertThrows(InvalidFilePathException.class,()->electionManagerService.readFile(null));
+        assertThrows(InvalidFilePathException.class, () -> electionManagerService.readFile(""));
+        assertThrows(InvalidFilePathException.class, () -> electionManagerService.readFile(null));
     }
 
     @Test
     void shouldBeAbleToProcessDataAndGetWinnerOfConstituency() throws InvalidInputFileDataException, InvalidFilePathException {
         // arrange
         String filePath = "src/main/java/com/amaap/electionresult/resource/ResultData.txt";
-        WinnerDto winner1 = new WinnerDto("Bangalore","INC",17803,49.0);
-        WinnerDto winner2 = new WinnerDto("Pune","INC",9389,44.0);
-        List<WinnerDto> expected = List.of(winner1,winner2);
+        WinnerDto winner1 = new WinnerDto("Bangalore", "INC", 17803, 49.0);
+        WinnerDto winner2 = new WinnerDto("Pune", "INC", 9389, 44.0);
+        List<WinnerDto> expected = List.of(winner1, winner2);
 
         // act
         electionManagerService.readFile(filePath);
         List<WinnerDto> actual = electionManagerService.getWinner();
 
         // assert
-        assertEquals(expected,actual);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -83,6 +90,6 @@ class ElectionManagerServiceTest {
         String actual = electionManagerService.displayWinners(winnerList).trim();
 
         // assert
-        assertEquals(expected,actual);
+        assertEquals(expected, actual);
     }
 }
